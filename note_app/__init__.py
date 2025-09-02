@@ -14,9 +14,12 @@ def create_app():
     base_dir = os.path.abspath(os.path.dirname(__file__))
     
     # Create Flask app with proper paths
+    # app = Flask(__name__, 
+    #             template_folder=os.path.join(base_dir, 'templates'),  # Correct path
+    #              static_folder=os.path.join(base_dir, 'static'))
     app = Flask(__name__, 
-                template_folder=os.path.join(base_dir, 'templates'),  # Correct path
-                 static_folder=os.path.join(base_dir, 'static'))
+                template_folder='note_app/templates',
+                static_folder='note_app/static')
 
         # Configuration
     
@@ -55,5 +58,6 @@ def create_app():
 
     
     return app
+
 
   
