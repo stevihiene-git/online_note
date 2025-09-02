@@ -1,0 +1,42 @@
+/* style.css (updated) */
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: #f8f9fa;
+}
+
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.jumbotron {
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/static/images/note1.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    padding: 100px 0;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.note-card {
+    border-left: 4px solid #651F09;
+    transition: transform 0.2s;
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.btn-note {
+    background-color: #651F09;
+    border-color: #651F09;
+    color: white;
+}
+
+.btn-note:hover {
+    background-color: #651F09;
+    border-color: #651F09;
+    color: white;
+}
