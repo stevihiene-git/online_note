@@ -4,14 +4,6 @@
     {
       "src": "wsgi.py",
       "use": "@vercel/python"
-    },
-    {
-      "src": "note_app/static/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "note_app/templates/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
