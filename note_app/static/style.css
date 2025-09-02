@@ -1,4 +1,9 @@
-/* style.css (updated) */
+:root {
+  --primary-color: #651F09;
+  --primary-hover: #8B2B0C;
+  --primary-light: rgba(101, 31, 9, 0.1);
+}
+
 body {
     font-family: 'Roboto Mono', monospace;
     background-color: #f8f9fa;
@@ -7,6 +12,11 @@ body {
 .navbar-brand {
     font-weight: bold;
     font-size: 1.5rem;
+}
+
+/* Custom navbar background */
+.navbar-custom {
+  background-color: var(--primary-color) !important;
 }
 
 .jumbotron {
@@ -19,8 +29,20 @@ body {
     margin-bottom: 30px;
 }
 
+/* Signup button in jumbotron */
+.btn.signup.brown {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+.btn.signup.brown:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
 .note-card {
-    border-left: 4px solid #651F09;
+    border-left: 4px solid var(--primary-color);
     transition: transform 0.2s;
 }
 
@@ -30,13 +52,50 @@ body {
 }
 
 .btn-note {
-    background-color: #651F09;
-    border-color: #651F09;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
     color: white;
 }
 
 .btn-note:hover {
-    background-color: #651F09;
-    border-color: #651F09;
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
     color: white;
+}
+
+/* Card header background */
+.card-header.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+/* Primary button styles */
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+/* Outline button styles */
+.btn-outline-primary {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+/* Custom background for other elements that should use the primary color */
+.bg-custom-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.text-custom-primary {
+  color: var(--primary-color) !important;
 }
