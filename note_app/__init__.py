@@ -14,6 +14,11 @@ def create_app():
     # BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     
+    # Configure instance path for Vercel
+    instance_path = None
+    if os.environ.get('VERCEL'):
+        # On Vercel, use /tmp for instance directory
+        instance_path = '/tmp/instance'
     
     app = Flask(__name__, 
                 template_folder=os.path.join(BASE_DIR, 'templates'),  # Correct path
