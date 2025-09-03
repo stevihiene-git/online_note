@@ -77,3 +77,15 @@ def edit_note(note_id):
     date = datetime.now()
     current_date = date.strftime("%Y")
     return render_template("edit_note.html", title="Edit Note", form=form, note=note, current_date=current_date)
+
+
+# views.py - add this route
+@views2.route('/health')
+def health_check():
+    try:
+        # Test database connection
+        from note_app import db
+        db.session.execute('SELECT 1')
+        return 'Database connection: OK', 200
+    except Exception as e:
+        return f'Database error: {str(e)}', 500
