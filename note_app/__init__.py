@@ -10,16 +10,16 @@ login_manager = LoginManager()
 migrate = Migrate()  # Initialize Migrate
 
 def create_app():
-    # Get the base directory of your project
-    base_dir = os.path.abspath(os.path.dirname(__file__))
     
-    # Create Flask app with proper paths
-    # app = Flask(__name__, 
-    #             template_folder=os.path.join(base_dir, 'templates'),  # Correct path
-    #              static_folder=os.path.join(base_dir, 'static'))
+    # BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+    
+    
     app = Flask(__name__, 
-                template_folder='note_app/templates',
-                static_folder='note_app/static')
+                template_folder=os.path.join(BASE_DIR, 'templates'),  # Correct path
+                static_folder=os.path.join(BASE_DIR, 'static'))      
+
+
 
         # Configuration
     
