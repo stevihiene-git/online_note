@@ -7,8 +7,39 @@ from note_app import db
 from note_app.models import User
 from note_app.forms import RegistrationForm, LoginForm
 from flask_login import login_user, logout_user, current_user
+from sqlalchemy.exc import OperationalError, IntegrityError
 
 auth2 = Blueprint('auth', __name__,template_folder='public')
+
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+@auth2.route('/login', methods=['GET', 'POST'])
+def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('views.home'))
+    
+    form = LoginForm()
+    if form.validate_on_submit():
+        try:
+            user = User.query.filter_by(email=form.email.data).first()
+            if user and check_password_hash(user.password_hash, form.password.data):
+                login_user(user)
+                next_page = request.args.get('next')
+                return redirect(next_page) if next_page else redirect(url_for('views.home'))
+            else:
+                flash('Login unsuccessful. Please check email and password.', 'danger')
+        except OperationalError as e:
+            logger.error(f"Database connection error: {e}")
+            flash('Database connection error. Please try again later.', 'danger')
+        except Exception as e:
+            logger.error(f"Unexpected error during login: {e}")
+            flash('An unexpected error occurred. Please try again.', 'danger')
+    
+    return render_template("login.html", title="Login", form=form)
 
 @auth2.route('/signup', methods=['GET', 'POST'])
 def signup():
