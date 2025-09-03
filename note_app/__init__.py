@@ -27,7 +27,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://neondb_owner:npg_cgBmFfx74CHD@ep-holy-dew-ad13mo4d-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notedb.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['DEBUG'] = False
+    app.config['DEBUG'] = True
     app.config['TESTING'] = False
     
             # Initialize extensions with app
