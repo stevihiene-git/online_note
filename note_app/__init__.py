@@ -24,17 +24,8 @@ def create_app():
         # Configuration
     
     app.config['SECRET_KEY'] = '2d2c5c6476929240e999d4487136ecf06f223dc9e7c381272bf7ae4eaf0c13ab'  # to be Changed in production!
-    
-    if os.environ.get('VERCEL'):
-        app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://neondb_owner:npg_cgBmFfx74CHD@ep-holy-dew-ad13mo4d-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
-        app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
-            'pool_recycle': 300,
-            'pool_pre_ping': True,
-        }
-    else:
-    # For local development
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notedb.db'
-
+    app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://neondb_owner:npg_cgBmFfx74CHD@ep-holy-dew-ad13mo4d-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require"
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notedb.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['DEBUG'] = False
     app.config['TESTING'] = False
