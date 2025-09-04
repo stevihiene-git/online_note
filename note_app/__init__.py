@@ -1,4 +1,4 @@
-# __init__.py
+# __init__.py - SECURE VERSION
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -10,34 +10,29 @@ login_manager = LoginManager()
 migrate = Migrate()
 
 def create_app():
-    # Get the base directory
     BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     
-    # Configure for Vercel production
+    # Configure for Vercel
     app = Flask(__name__,
                 instance_path='/tmp',
                 instance_relative_config=True,
                 template_folder=os.path.join(BASE_DIR, 'templates'),
                 static_folder=os.path.join(BASE_DIR, 'static'))
 
-    # # Use Neon PostgreSQL from environment variable
-    # database_url = os.environ.get('DATABASE_URL')
+    # Get database URL from environment variable
+    database_url = os.environ.get('DATABASE_URL')
+    if not database_url:
+        raise RuntimeError("DATABASE_URL environment variable is not set")
     
-    # # Check if DATABASE_URL is set; if not, an error will occur
-    # if not database_url:
-    #     # This will cause the application to fail to start, which is the desired behavior
-    #     # in a production environment if a critical variable is missing.
-    #     raise RuntimeError("DATABASE_URL environment variable is not set. Please configure it in your Vercel project settings.")
-
     # Fix for Neon's postgres:// prefix
-    # if database_url.startswith('postgres://'):
-    #     database_url = database_url.replace('postgres://', 'postgresql://', 1)
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
         
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://neondb_owner:npg_cgBmFfx74CHD@ep-holy-dew-ad13mo4d-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
-    # Configuration - use environment variables for security
-    app.config['SECRET_KEY'] = '2d2c5c6476929240e999d4487136ecf06f223dc9e7c381272bf7ae4eaf0c13ab'
+    # Get secret key from environment variable
+    app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'fallback-dev-key-change-this')
     app.config['DEBUG'] = False
     app.config['TESTING'] = False
     
@@ -66,10 +61,6 @@ def create_app():
     
     app.register_blueprint(views2, url_prefix='/')
     app.register_blueprint(auth2, url_prefix='/')
-    app.register_blueprint(errors)  # Register the errors blueprint
-
+    app.register_blueprint(errors)
     
     return app
-
-
-
