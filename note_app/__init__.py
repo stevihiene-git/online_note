@@ -13,34 +13,32 @@ def create_app():
     # Get the base directory
     BASE_DIR = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
     
-    # Configure for Vercel vs local
-    if os.environ.get('VERCEL'):
-        # Vercel production - use /tmp for instance and PostgreSQL
-        app = Flask(__name__, 
-                    instance_path='/tmp',
-                    instance_relative_config=True,
-                    template_folder=os.path.join(BASE_DIR, 'templates'),
-                    static_folder=os.path.join(BASE_DIR, 'static'))
+    # Configure for Vercel production
+    app = Flask(__name__,
+                instance_path='/tmp',
+                instance_relative_config=True,
+                template_folder=os.path.join(BASE_DIR, 'templates'),
+                static_folder=os.path.join(BASE_DIR, 'static'))
+
+    # Use Neon PostgreSQL from environment variable
+    database_url = os.environ.get('DATABASE_URL')
+    
+    # Check if DATABASE_URL is set; if not, an error will occur
+    if not database_url:
+        # This will cause the application to fail to start, which is the desired behavior
+        # in a production environment if a critical variable is missing.
+        raise RuntimeError("DATABASE_URL environment variable is not set. Please configure it in your Vercel project settings.")
+
+    # Fix for Neon's postgres:// prefix
+    if database_url.startswith('postgres://'):
+        database_url = database_url.replace('postgres://', 'postgresql://', 1)
         
-        # Use Neon PostgreSQL from environment variable (NEVER hardcode!)
-        database_url = os.environ.get('DATABASE_URL')
-        if database_url and database_url.startswith('postgres://'):
-            database_url = database_url.replace('postgres://', 'postgresql://', 1)
-        app.config['SQLALCHEMY_DATABASE_URI'] = database_url
-        
-    else:
-        # Local development - normal setup
-        app = Flask(__name__,
-                    template_folder=os.path.join(BASE_DIR, 'templates'),
-                    static_folder=os.path.join(BASE_DIR, 'static'))
-        
-        # Use SQLite locally
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///notedb.db'
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
     # Configuration - use environment variables for security
     app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-fallback-key-change-in-production')
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['DEBUG'] = False  # Always False in production
+    app.config['DEBUG'] = False
     app.config['TESTING'] = False
     
     # Initialize extensions
