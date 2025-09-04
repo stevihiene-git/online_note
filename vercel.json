@@ -10,8 +10,7 @@
   ],
   "env": {
     "FLASK_ENV": "production",
-    "SECRET_KEY": "21b742dd32d423d62947484b43e8b5f4d5ac320e99f8b4c2c59de090c48204d5
-"
+    "SECRET_KEY": "21b742dd32d423d62947484b43e8b5f4d5ac320e99f8b4c2c59de090c48204d5"
     
   }
 }
