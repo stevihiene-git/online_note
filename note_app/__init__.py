@@ -65,6 +65,9 @@ def create_app():
     
     app.register_blueprint(views2, url_prefix='/')
     app.register_blueprint(auth2, url_prefix='/')
+    app.register_blueprint(errors)  # Register the errors blueprint
+
     
     return app
+
 
