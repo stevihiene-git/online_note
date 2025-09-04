@@ -62,6 +62,7 @@ def create_app():
     # Register blueprints
     from note_app.views import views2
     from note_app.auth import auth2
+    from note_app.errors import errors 
     
     app.register_blueprint(views2, url_prefix='/')
     app.register_blueprint(auth2, url_prefix='/')
@@ -69,5 +70,6 @@ def create_app():
 
     
     return app
+
 
 
