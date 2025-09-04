@@ -38,7 +38,7 @@ def create_app():
     
     # Configuration - use environment variables for security
     app.config['SECRET_KEY'] = '2d2c5c6476929240e999d4487136ecf06f223dc9e7c381272bf7ae4eaf0c13ab'
-    app.config['DEBUG'] = True
+    app.config['DEBUG'] = False
     app.config['TESTING'] = False
     
     # Initialize extensions
@@ -67,3 +67,4 @@ def create_app():
     app.register_blueprint(auth2, url_prefix='/')
     
     return app
+
