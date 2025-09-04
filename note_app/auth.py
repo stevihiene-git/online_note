@@ -59,11 +59,8 @@ def signup():
     current_date = date.strftime("%Y")
     return render_template("signup.html", title="Sign Up", form=form, current_date=current_date)
 
-    return render_template("login.html", title="Login", form=form, current_date=current_date)
 
 @auth2.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('views.home'))
-
-
