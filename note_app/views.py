@@ -5,6 +5,7 @@ from note_app import db
 from note_app.models import Note
 from note_app.forms import NoteForm
 from flask_login import current_user, login_required
+from sqlalchemy import text  # Add this import
 
 views2 = Blueprint('views', __name__,template_folder='public')
 
@@ -79,13 +80,44 @@ def edit_note(note_id):
     return render_template("edit_note.html", title="Edit Note", form=form, note=note, current_date=current_date)
 
 
+
+@views2.route('/test-db')
+def test_db():
+    try:
+        from note_app import db
+        result = db.session.execute(text('SELECT 1'))  # Wrap with text()
+        return 'Database connection: OK'
+    except Exception as e:
+        return f'Database error: {str(e)}', 500
+
 # views.py - add this route
 @views2.route('/health')
 def health_check():
     try:
         # Test database connection
         from note_app import db
-        db.session.execute('SELECT 1')
+        db.session.execute(text('SELECT 1'))
         return 'Database connection: OK', 200
+    except Exception as e:
+        return f'Database error: {str(e)}', 500
+
+@views2.route('/debug/vercel')
+def debug_vercel():
+    import os
+    info = {
+        'vercel': os.environ.get('VERCEL'),
+        'database_url_set': bool(os.environ.get('DATABASE_URL')),
+        'python_version': os.environ.get('PYTHON_VERSION'),
+        'all_env_vars': {k: v for k, v in os.environ.items() if 'KEY' not in k and 'PASS' not in k}
+    }
+    return info
+
+@views2.route('/debug/db')
+def debug_db():
+    try:
+        from note_app import db
+        from sqlalchemy import text
+        result = db.session.execute(text('SELECT 1'))
+        return 'Database connection: OK'
     except Exception as e:
         return f'Database error: {str(e)}', 500
