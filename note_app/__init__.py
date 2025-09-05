@@ -10,7 +10,7 @@ login_manager = LoginManager()
 migrate = Migrate()
 
 def create_app():
-    def create_app():
+    
     # Add debug print for Vercel
     print("Vercel environment:", os.environ.get('VERCEL'))
     print("Database URL set:", bool(os.environ.get('DATABASE_URL')))
@@ -82,4 +82,5 @@ def create_app():
     app.register_blueprint(errors)
     
     return app
+
 
